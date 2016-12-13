@@ -32,7 +32,7 @@ public class Meal {
 
     public boolean isNew()
     {
-        return  getId() == null;
+        return id == null;
     }
 
     public Integer getId() {
