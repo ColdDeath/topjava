@@ -25,8 +25,8 @@ public class MealServlet extends HttpServlet {
         String forward = "";
         String action = request.getParameter("action");
 
-        if (action.equalsIgnoreCase("delete")) {
-            int mealId = Integer.parseInt(request.getParameter("mealId"));
+        //if (action.equalsIgnoreCase("delete")) {
+        //    int mealId = Integer.parseInt(request.getParameter("mealId"));
 
           /*  dao.deleteUser(userId);
             forward = LIST_USER;
@@ -45,9 +45,9 @@ public class MealServlet extends HttpServlet {
 */
 
 
-            request.setAttribute("mealList", MealsUtil.getWithExceeded(MealsUtil.MEAL_LIST, 2000));
-            //response.sendRedirect("meals.jsp");
-            request.getRequestDispatcher("/meals.jsp").forward(request, response);
-        }
+        request.setAttribute("mealList", MealsUtil.getWithExceeded(MealsUtil.MEAL_LIST, 2000));
+        //response.sendRedirect("meals.jsp");
+        request.getRequestDispatcher("/meals.jsp").forward(request, response);
     }
 }
+
