@@ -41,7 +41,7 @@ public abstract class AbstractUserController {
     public void update(User user, int id) {
         user.setId(id);
         LOG.info("update " + user);
-        service.update(user);
+        service.save(user);
     }
 
     public User getByMail(String email) {
