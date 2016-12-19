@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
@@ -68,9 +70,11 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId)
+    public Collection<Meal> getBetween(LocalDate startDate, LocalDate endDate, int userId)
     {
-        return null;
+        return repository.values().stream()
+                .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate))
+                .collect(Collectors.toList());
     }
 }
 
