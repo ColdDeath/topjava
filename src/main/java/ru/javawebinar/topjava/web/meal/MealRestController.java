@@ -48,9 +48,8 @@ public class MealRestController {
         return MealsUtil.getWithExceeded(service.getAll(userId), AuthorizedUser.getCaloriesPerDay());
     }
 
-    public void update(Meal meal, int id)
+    public void update(Meal meal)
     {
-        meal.setId(id);
         int userId = AuthorizedUser.id();
         LOG.info("update {} for User {}", meal, userId);
         service.save(meal, userId);
