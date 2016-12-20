@@ -18,7 +18,7 @@
 <body>
 <section>
     <h2><a href="index.html">Home</a></h2>
-    <h2>Meal list</h2>
+    <h2>Meal list для пользователя ${userName}</h2>
     <a href="meals?action=create">Add Meal</a>
     <form method="post" action="meals?action=filter">
         <dl>

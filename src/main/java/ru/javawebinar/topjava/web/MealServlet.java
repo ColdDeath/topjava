@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
+import ru.javawebinar.topjava.web.user.ProfileRestController;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -29,12 +31,14 @@ public class MealServlet extends HttpServlet {
 
     private ConfigurableApplicationContext springContext;
     private MealRestController mealController;
+    private ProfileRestController profileRestController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml");
         mealController = springContext.getBean(MealRestController.class);
+        profileRestController = springContext.getBean(ProfileRestController.class);
     }
 
     @Override
@@ -84,6 +88,7 @@ public class MealServlet extends HttpServlet {
         if (action == null) {
             LOG.info("getAll");
             request.setAttribute("meals", mealController.getAll());
+            request.setAttribute("userName",  profileRestController.get(AuthorizedUser.id()).getName());
             request.getRequestDispatcher("/meals.jsp").forward(request, response);
 
         } else if ("delete".equals(action)) {

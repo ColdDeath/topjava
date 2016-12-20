@@ -23,10 +23,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class InMemoryUserRepositoryImpl implements UserRepository {
     private static final Logger LOG = LoggerFactory.getLogger(InMemoryUserRepositoryImpl.class);
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
-    private AtomicInteger counter = new AtomicInteger();
+    private AtomicInteger counter = new AtomicInteger(3);
 
     {
-        save(new User(1, "Admin", "test@ya.ru", "root", Role.ROLE_USER));
+        save(new User(1, "User", "test@ya.ru", "user", Role.ROLE_USER));
+        save(new User(2, "Admin", "adm@ya.ru", "root", Role.ROLE_ADMIN));
     }
 
     @Override
