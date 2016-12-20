@@ -13,6 +13,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,7 +31,15 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        MealsUtil.MEALS.forEach(meal -> save(meal, 1));
+        save(new Meal(1, LocalDateTime.of(2015, Month.MAY, 28, 12, 0), "Обед админа", 500), 1);
+        save(new Meal(1, LocalDateTime.of(2015, Month.MAY, 28, 18, 0), "Ужин админа :)", 510), 1);
+
+        save(new Meal(2, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500), 2);
+        save(new Meal(2, LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000), 2);
+        save(new Meal(2, LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500), 2);
+        save(new Meal(2, LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000), 2);
+        save(new Meal(2, LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500), 2);
+        save(new Meal(2, LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510), 2);
     }
 
     @Override
