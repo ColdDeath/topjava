@@ -7,13 +7,12 @@ import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -26,8 +25,8 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     private AtomicInteger counter = new AtomicInteger(3);
 
     {
-        save(new User(1, "User", "test@ya.ru", "user", Role.ROLE_USER));
-        save(new User(2, "Admin", "adm@ya.ru", "root", Role.ROLE_ADMIN));
+        save(new User(1, "Admin", "adm@ya.ru", "root", Role.ROLE_ADMIN));
+        save(new User(2, "User", "test@ya.ru", "user", Role.ROLE_USER));
     }
 
     @Override
@@ -44,6 +43,8 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public boolean delete(int id) {
         LOG.info("delete " + id);
+        if (!repository.containsKey(id))
+            throw new NotFoundException("user with this is not exist");
         repository.remove(id);
         return true;
     }
@@ -51,13 +52,17 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public User get(int id) {
         LOG.info("get " + id);
+        if (!repository.containsKey(id))
+            throw new NotFoundException("user with this is not exist");
         return repository.get(id);
     }
 
     @Override
     public List<User> getAll() {
         LOG.info("getAll");
-        return new ArrayList<User>(repository.values());
+        return new ArrayList<User>(repository.values().stream()
+                .sorted(Comparator.comparing(User::getName))
+                .collect(Collectors.toList()));
     }
 
     @Override

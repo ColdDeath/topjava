@@ -2,6 +2,8 @@ package ru.javawebinar.topjava.model;
 
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
@@ -18,7 +20,7 @@ public class User extends NamedEntity {
 
     private boolean enabled = true;
 
-    private Date registered = new Date();
+    private LocalDateTime registered = LocalDateTime.now();
 
     private Set<Role> roles;
 
@@ -52,11 +54,11 @@ public class User extends NamedEntity {
         this.password = password;
     }
 
-    public Date getRegistered() {
+    public LocalDateTime getRegistered() {
         return registered;
     }
 
-    public void setRegistered(Date registered) {
+    public void setRegistered(LocalDateTime registered) {
         this.registered = registered;
     }
 

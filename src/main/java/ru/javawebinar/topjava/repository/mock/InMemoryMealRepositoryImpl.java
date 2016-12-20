@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -49,6 +50,10 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
             meal.setId(counter.incrementAndGet());
             meal.setUserId(userId);
         }
+        if (meal.getUserId() != userId)
+        {
+            throw new NotFoundException("cannot edit meal of another user");
+        }
         repository.put(meal.getId(), meal);
         return meal;
     }
@@ -56,10 +61,10 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     @Override
     public boolean delete(int id, int userId) {
         LOG.info("delete " + id);
+        if (!repository.containsKey(id))
+            throw new NotFoundException("meal with this is not exist");
         if (repository.get(id).getUserId() != userId)
-        {
             throw new NotFoundException("cannot delete meal of another user");
-        }
         repository.remove(id);
         return true;
     }
@@ -67,6 +72,8 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     @Override
     public Meal get(int id, int userId) {
         LOG.info("get " + id);
+        if (!repository.containsKey(id))
+            throw new NotFoundException("meal with this is not exist");
         if (repository.get(id).getUserId() != userId)
             throw new NotFoundException("cannot get meal of another user");
         return repository.get(id);
@@ -75,7 +82,9 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     @Override
     public Collection<Meal> getAll(int userId) {
         LOG.info("getAll");
-        return repository.values().stream().filter(meal -> meal.getUserId() == userId).collect(Collectors.toList());
+        return repository.values().stream().filter(meal -> meal.getUserId() == userId)
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -83,6 +92,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     {
         return repository.values().stream()
                 .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate))
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
     }
 }

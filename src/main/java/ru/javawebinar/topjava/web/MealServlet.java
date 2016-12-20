@@ -86,14 +86,14 @@ public class MealServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if (action == null) {
-            LOG.info("getAll");
+            LOG.info("getAll meals");
             request.setAttribute("meals", mealController.getAll());
             request.setAttribute("userName",  profileRestController.get(AuthorizedUser.id()).getName());
             request.getRequestDispatcher("/meals.jsp").forward(request, response);
 
         } else if ("delete".equals(action)) {
             int id = getId(request);
-            LOG.info("Delete {}", id);
+            LOG.info("Delete meal {}", id);
             mealController.delete(id);
             response.sendRedirect("meals");
 
