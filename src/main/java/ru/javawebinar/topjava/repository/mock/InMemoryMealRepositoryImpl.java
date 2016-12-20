@@ -50,39 +50,36 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
             meal.setId(counter.incrementAndGet());
             meal.setUserId(userId);
         }
-        if (meal.getUserId() != userId)
+        if (meal.getUserId() == userId)
         {
-            throw new NotFoundException("cannot edit meal of another user");
+            repository.put(meal.getId(), meal);
         }
-        repository.put(meal.getId(), meal);
         return meal;
     }
 
     @Override
     public boolean delete(int id, int userId) {
         LOG.info("delete " + id);
-        if (!repository.containsKey(id))
-            throw new NotFoundException("meal with this is not exist");
         if (repository.get(id).getUserId() != userId)
-            throw new NotFoundException("cannot delete meal of another user");
-        repository.remove(id);
+        {
+            repository.remove(id);
+        }
         return true;
     }
 
     @Override
     public Meal get(int id, int userId) {
         LOG.info("get " + id);
-        if (!repository.containsKey(id))
-            throw new NotFoundException("meal with this is not exist");
-        if (repository.get(id).getUserId() != userId)
-            throw new NotFoundException("cannot get meal of another user");
-        return repository.get(id);
+        if (repository.get(id) == null)
+            return null;
+        return repository.get(id).getUserId() == userId ? repository.get(id) : null;
     }
 
     @Override
     public Collection<Meal> getAll(int userId) {
         LOG.info("getAll");
-        return repository.values().stream().filter(meal -> meal.getUserId() == userId)
+        return repository.values().stream()
+                .filter(meal -> meal.getUserId() == userId)
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
     }
@@ -92,6 +89,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     {
         return repository.values().stream()
                 .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate))
+                .filter(meal -> meal.getUserId() == userId)
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
     }
