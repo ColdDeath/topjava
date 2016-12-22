@@ -22,7 +22,7 @@
             <td>${user.name}</td>
             <td>${user.email}</td>
             <td>${user.enabled}</td>
-            <td>${fn:formatDateTime(user.registered)}</td>
+            <td>${user.registered}</td>
         </tr>
     </c:forEach>
 </table>
