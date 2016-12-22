@@ -20,7 +20,7 @@ public class User extends NamedEntity {
 
     private boolean enabled = true;
 
-    private LocalDateTime registered = LocalDateTime.now();
+    private Date registered = new Date();
 
     private Set<Role> roles;
 
@@ -54,11 +54,11 @@ public class User extends NamedEntity {
         this.password = password;
     }
 
-    public LocalDateTime getRegistered() {
+    public Date getRegistered() {
         return registered;
     }
 
-    public void setRegistered(LocalDateTime registered) {
+    public void setRegistered(Date registered) {
         this.registered = registered;
     }
 

@@ -43,17 +43,12 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public boolean delete(int id) {
         LOG.info("delete " + id);
-        if (!repository.containsKey(id))
-            throw new NotFoundException("user with this is not exist");
-        repository.remove(id);
-        return true;
+        return repository.remove(id) != null ? true : false;
     }
 
     @Override
     public User get(int id) {
         LOG.info("get " + id);
-        if (!repository.containsKey(id))
-            throw new NotFoundException("user with this is not exist");
         return repository.get(id);
     }
 
