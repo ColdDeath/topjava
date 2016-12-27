@@ -38,7 +38,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     public JdbcMealRepositoryImpl(DataSource dataSource) {
         this.insertMeal = new SimpleJdbcInsert(dataSource)
-                .withTableName("MEAL")
+                .withTableName("MEALS")
                 .usingGeneratedKeyColumns("id");
     }
 
@@ -70,7 +70,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     @Override
     public boolean delete(int id, int userId)
     {
-        return jdbcTemplate.update("DELETE FROM users WHERE id=? and user_id=?", id, userId) != 0;
+        return jdbcTemplate.update("DELETE FROM meals WHERE id=? and user_id=?", id, userId) != 0;
     }
 
     @Override

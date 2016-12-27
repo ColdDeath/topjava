@@ -28,4 +28,4 @@ VALUES (100000, to_timestamp('31.05.2015 20:00:00', 'dd.MM.yyyy hh24:mi:ss'), '�
 INSERT INTO meals (user_id, datetime, description, calories)
 VALUES (100001, to_timestamp('01.06.2015 14:00:00', 'dd.MM.yyyy hh24:mi:ss'), 'Админ ланч', 510);
 INSERT INTO meals (user_id, datetime, description, calories)
-VALUES (100001, to_timestamp('01.06.2015 21:00:00', 'dd.MM.yyyy hh24:mi:ss'), 'Админ ужин', 510);
+VALUES (100001, to_timestamp('01.06.2015 21:00:00', 'dd.MM.yyyy hh24:mi:ss'), 'Админ ужин', 1500);
