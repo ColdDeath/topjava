@@ -20,12 +20,6 @@ import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
  */
 public class MealTestData {
 
-    public static final int USER_ID = START_SEQ;
-    public static final int ADMIN_ID = START_SEQ + 1;
-
-    public static final User USER = new User(USER_ID, "User", "user@yandex.ru", "password", Role.ROLE_USER);
-    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN);
-
     public static final List<Meal> MEALS_USER = Arrays.asList(
             new Meal(START_SEQ + 2, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
             new Meal(START_SEQ + 3, LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
@@ -40,13 +34,6 @@ public class MealTestData {
             new Meal(START_SEQ + 9, LocalDateTime.of(2015, Month.JUNE, 1, 21, 0), "Админ ужин", 1500)
     );
 
-    public static final ModelMatcher<Meal> MATCHER = new ModelMatcher<>(
-            (expected, actual) -> expected == actual ||
-                    (Objects.equals(expected.getId(), actual.getId())
-                            && Objects.equals(expected.getDescription(), actual.getDescription())
-                            && Objects.equals(expected.getDateTime(), actual.getDateTime())
-                            && Objects.equals(expected.getCalories(), actual.getCalories())
-                    )
-    );
+    public static final ModelMatcher<Meal> MATCHER = new ModelMatcher<>();
 
 }
