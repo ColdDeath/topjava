@@ -43,26 +43,22 @@ public class JpaMealRepositoryImpl implements MealRepository {
     @Override
     @Transactional
     public boolean delete(int id, int userId) {
-        User ref = em.getReference(User.class, userId);
-        return em.createNamedQuery(Meal.DELETE).setParameter("id", id).setParameter("user", ref).executeUpdate() != 0;
+        return em.createNamedQuery(Meal.DELETE).setParameter("id", id).setParameter("user_id", userId).executeUpdate() != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        User ref = em.getReference(User.class, userId);
-        List<Meal> meals = em.createNamedQuery(Meal.GET, Meal.class).setParameter("id", id).setParameter("user", ref).getResultList();
+        List<Meal> meals = em.createNamedQuery(Meal.GET, Meal.class).setParameter("id", id).setParameter("user_id", userId).getResultList();
         return DataAccessUtils.singleResult(meals);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        User ref = em.getReference(User.class, userId);
-        return em.createNamedQuery(Meal.GET, Meal.class).setParameter("user", ref).getResultList();
+        return em.createNamedQuery(Meal.GET, Meal.class).setParameter("user_id", userId).getResultList();
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        User ref = em.getReference(User.class, userId);
         return em.createNamedQuery(Meal.BETWEEN_SORTED, Meal.class)
                 .setParameter(1, userId).setParameter(2, startDate)
                 .setParameter(3, endDate).getResultList();

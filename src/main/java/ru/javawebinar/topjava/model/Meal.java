@@ -13,10 +13,10 @@ import java.time.LocalTime;
  * 11.01.2015.
  */
 @NamedQueries({
-        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id and m.user=:user"),
-        @NamedQuery(name = Meal.GET, query = "DELETE FROM Meal m WHERE m.id=:id and m.user=:user and m.id=:id"),
-        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user=:user ORDER BY m.dateTime DESC"),
-        @NamedQuery(name = Meal.BETWEEN_SORTED, query = "SELECT m FROM Meal m WHERE m.user=?1 AND m.dateTime BETWEEN ?2 and ?3 ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id and m.user.id=:user_id"),
+        @NamedQuery(name = Meal.GET, query = "DELETE FROM Meal m WHERE m.id=:id and m.user.id=:user_id and m.id=:id"),
+        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user.id=:user_id ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.BETWEEN_SORTED, query = "SELECT m FROM Meal m WHERE m.user.id=?1 AND m.dateTime BETWEEN ?2 and ?3 ORDER BY m.dateTime DESC"),
 })
 @Entity
 @Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "meals_unique_user_datetime_idx")})
@@ -39,9 +39,9 @@ public class Meal extends BaseEntity {
     @NotEmpty
     private int calories;
 
-    @Column(name = "user_id")
     @NotEmpty
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
     private User user;
 
     public Meal() {
