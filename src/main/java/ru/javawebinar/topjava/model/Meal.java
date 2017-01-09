@@ -27,21 +27,21 @@ public class Meal extends BaseEntity {
     public static final String ALL_SORTED = "Meal.getAllSorted";
     public static final String BETWEEN_SORTED = "Meal.getBetweenSorted";
 
-    @Column(name = "date_time")
-    @NotEmpty
+    @Column(name = "date_time", nullable = false)
+    @NotNull
     private LocalDateTime dateTime;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     @NotEmpty
     private String description;
 
-    @Column(name = "calories")
-    @NotEmpty
+    @Column(name = "calories", nullable = false)
+    @NotNull
     private int calories;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id", nullable = false)
     private User user;
 
     public Meal() {
