@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,6 +33,7 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
     private static final Logger LOG = LoggerFactory.getLogger(MealService.class);
+    private static StringBuilder runtimeInfo = new StringBuilder();
 
     @Autowired
     private MealService service;
@@ -43,8 +45,18 @@ public class MealServiceTest {
     public Stopwatch stopwatch = new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
-            LOG.info("Метод " + description.getMethodName() + ". Время выполнения: " + String.format("%.0f", (float) nanos/1000000)+" ms");
+            String runtimeMethodInfo = "Метод " + description.getMethodName() + ". Время выполнения: " + String.format("%.0f", (float) nanos/1000000)+" ms";
+            LOG.info(runtimeMethodInfo);
+            runtimeInfo.append(System.getProperty("line.separator"));
+            runtimeInfo.append(runtimeMethodInfo);
+        }
+    };
 
+    @ClassRule
+    public static Stopwatch stopwatchClass = new Stopwatch() {
+        @Override
+        protected void finished(long nanos, Description description) {
+            LOG.info(runtimeInfo.toString());
         }
     };
 
