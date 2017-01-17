@@ -64,7 +64,7 @@ public abstract class MealServiceTest {
     }
 
     @Autowired
-    private MealService service;
+    protected MealService service;
 
     @Test
     public void testDelete() throws Exception {
@@ -120,11 +120,5 @@ public abstract class MealServiceTest {
     public void testGetBetween() throws Exception {
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL3, MEAL2, MEAL1),
                 service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID));
-    }
-
-    @Test
-    public void testGetWithUser() throws Exception {
-        Meal meal = service.get(ADMIN_MEAL_ID, ADMIN_ID);
-        UserTestData.MATCHER.assertEquals(UserTestData.ADMIN, meal.getUser());
     }
 }
