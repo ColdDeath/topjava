@@ -16,6 +16,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.javawebinar.topjava.Profiles;
+import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.UserTestData.USER;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 @ContextConfiguration({
@@ -118,5 +120,11 @@ public abstract class MealServiceTest {
     public void testGetBetween() throws Exception {
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL3, MEAL2, MEAL1),
                 service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID));
+    }
+
+    @Test
+    public void testGetWithUser() throws Exception {
+        Meal meal = service.get(ADMIN_MEAL_ID, ADMIN_ID);
+        UserTestData.MATCHER.assertEquals(UserTestData.ADMIN, meal.getUser());
     }
 }
