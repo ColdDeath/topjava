@@ -53,7 +53,6 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
     }
 
     public Meal getWithUser(int id, int userId) {
-        Meal meal = crudRepository.getWithUser(id);
-        return meal != null && meal.getUser().getId() == userId ? meal : null;
+        return crudRepository.getWithUser(id);
     }
 }
