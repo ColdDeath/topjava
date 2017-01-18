@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.Profiles;
 
+import javax.sql.DataSource;
+
 /**
  * Created by ColdDeath&Dummy on 18.01.2017.
  */
@@ -13,5 +15,8 @@ import ru.javawebinar.topjava.Profiles;
 @Component
 public class JdbcAllDbMealRepositoryImpl extends JdbcMealRepositoryImpl
 {
-
+    public JdbcAllDbMealRepositoryImpl(DataSource dataSource)
+    {
+        super(dataSource);
+    }
 }
