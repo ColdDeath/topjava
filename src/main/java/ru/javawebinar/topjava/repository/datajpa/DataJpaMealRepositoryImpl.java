@@ -53,6 +53,6 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
     }
 
     public Meal getWithUser(int id, int userId) {
-        return crudRepository.getWithUser(id);
+        return crudRepository.getWithUser(id, userId);
     }
 }

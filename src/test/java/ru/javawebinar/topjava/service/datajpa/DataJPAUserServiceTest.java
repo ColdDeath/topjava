@@ -22,7 +22,7 @@ public class DataJPAUserServiceTest extends UserServiceTest
     @Test
     public void testGetUserWithMeals() throws Exception
     {
-        User user = service.get(USER_ID);
+        User user = service.getWithMeals(USER_ID);
         Collection<Meal> actual = user.getMeals();
         MealTestData.MATCHER.assertCollectionEquals(Arrays.asList(
                 MealTestData.MEAL1, MealTestData.MEAL2, MealTestData.MEAL3, MealTestData.MEAL4, MealTestData.MEAL5, MealTestData.MEAL6), actual);
