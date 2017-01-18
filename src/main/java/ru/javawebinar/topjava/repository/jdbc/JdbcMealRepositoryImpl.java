@@ -24,25 +24,17 @@ import java.util.List;
  */
 
 @Repository
-@Profile({Profiles.POSTGRES, Profiles.JDBC, Profiles.JPA, Profiles.DATAJPA})
-public class JdbcMealRepositoryImpl implements MealRepository {
+public abstract class JdbcMealRepositoryImpl implements MealRepository {
 
-    private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    protected static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
     @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    private SimpleJdbcInsert insertMeal;
+    protected JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public JdbcMealRepositoryImpl(DataSource dataSource) {
-        this.insertMeal = new SimpleJdbcInsert(dataSource)
-                .withTableName("meals")
-                .usingGeneratedKeyColumns("id");
-    }
+    protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    protected SimpleJdbcInsert insertMeal;
 
     @Override
     public Meal save(Meal meal, int userId) {
