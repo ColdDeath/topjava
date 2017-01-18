@@ -11,7 +11,7 @@ import javax.sql.DataSource;
  * Created by ColdDeath&Dummy on 18.01.2017.
  */
 
-@Profile({Profiles.POSTGRES, Profiles.JDBC})
+@Profile(Profiles.POSTGRES)
 @Component
 public class JdbcAllDbMealRepositoryImpl extends JdbcMealRepositoryImpl
 {

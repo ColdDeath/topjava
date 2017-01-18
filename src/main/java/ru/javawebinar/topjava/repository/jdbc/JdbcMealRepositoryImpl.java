@@ -24,6 +24,7 @@ import java.util.List;
  */
 
 @Repository
+@Profile(Profiles.JDBC)
 public abstract class JdbcMealRepositoryImpl implements MealRepository {
 
     protected static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);

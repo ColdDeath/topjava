@@ -13,7 +13,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-@Profile({Profiles.HSQLDB, Profiles.JDBC})
+@Profile(Profiles.HSQLDB)
 @Component
 public class JdbcHsqlDbMealRepositoryImpl extends JdbcMealRepositoryImpl
 {
