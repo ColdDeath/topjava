@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -16,6 +17,11 @@ import java.util.List;
 @Component
 public class JdbcHsqlDbMealRepositoryImpl extends JdbcMealRepositoryImpl
 {
+    public JdbcHsqlDbMealRepositoryImpl(DataSource dataSource)
+    {
+        super(dataSource);
+    }
+
     @Override
     public Meal save(Meal meal, int userId) {
         MapSqlParameterSource map = new MapSqlParameterSource()

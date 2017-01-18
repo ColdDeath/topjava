@@ -36,6 +36,13 @@ public abstract class JdbcMealRepositoryImpl implements MealRepository {
 
     protected SimpleJdbcInsert insertMeal;
 
+    @Autowired
+    public JdbcMealRepositoryImpl(DataSource dataSource) {
+        this.insertMeal = new SimpleJdbcInsert(dataSource)
+                .withTableName("meals")
+                .usingGeneratedKeyColumns("id");
+    }
+
     @Override
     public Meal save(Meal meal, int userId) {
         MapSqlParameterSource map = new MapSqlParameterSource()
