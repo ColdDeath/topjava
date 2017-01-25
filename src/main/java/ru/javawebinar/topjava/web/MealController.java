@@ -76,7 +76,7 @@ public class MealController
             checkNew(meal);
             service.save(meal, userId);
         } else {
-            checkIdConsistent(meal, userId);
+            checkIdConsistent(meal, getId(request));
             service.update(meal, userId);
         }
         return "redirect:meals";

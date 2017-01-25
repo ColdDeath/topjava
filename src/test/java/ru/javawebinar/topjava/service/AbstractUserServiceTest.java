@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,6 +95,13 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         updated.setCaloriesPerDay(330);
         service.update(updated);
         MATCHER.assertEquals(updated, service.get(USER_ID));
+    }
+
+    @Test
+    public void testGetRoles() throws Exception
+    {
+        User admin = service.get(ADMIN_ID);
+        MATCHER.assertEquals(ADMIN, admin);
     }
 
     @Test
