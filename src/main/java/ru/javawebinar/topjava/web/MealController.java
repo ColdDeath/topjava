@@ -19,6 +19,9 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+import static ru.javawebinar.topjava.util.ValidationUtil.checkIdConsistent;
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
+
 /**
  * Created by ColdDeath&Dummy on 24.01.2017.
  */
@@ -70,8 +73,10 @@ public class MealController
                 request.getParameter("description"),
                 Integer.valueOf(request.getParameter("calories")));
         if (request.getParameter("id").isEmpty()) {
+            checkNew(meal);
             service.save(meal, userId);
         } else {
+            checkIdConsistent(meal, userId);
             service.update(meal, userId);
         }
         return "redirect:meals";
