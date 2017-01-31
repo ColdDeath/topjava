@@ -104,6 +104,19 @@
               p:entityManagerFactory-ref="entityManagerFactory"/>
 
         <bean class="ru.javawebinar.topjava.repository.JpaUtil"/>
+
+        <context:component-scan base-package="ru.javawebinar.**.util"/>
+
+        <bean id="jmxExporterCacheManagerMBean" class="org.springframework.jmx.export.MBeanExporter">
+            <property name="beans">
+                <map>
+                    <entry key="CacheManager:type=SecondLevelCacheManager">
+                        <ref bean="CacheUtil"/>
+                    </entry>
+                </map>
+            </property>
+        </bean>
+
     </beans>
 
     <beans profile="jpa">
