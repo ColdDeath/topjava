@@ -21,6 +21,7 @@ import java.util.List;
  * 06.03.2015.
  */
 @RestController
+@RequestMapping(MealRestController.REST_URL)
 public class MealRestController extends AbstractMealController {
     static final String REST_URL = "/rest/meals";
 

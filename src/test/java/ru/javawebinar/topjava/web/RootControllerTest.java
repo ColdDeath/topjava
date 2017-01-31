@@ -45,7 +45,8 @@ public class RootControllerTest extends AbstractControllerTest {
                                 hasProperty("id", is(START_SEQ + 2)),
                                 hasProperty("description", is(MEAL1.getDescription())),
                                 hasProperty("dateTime", is(MEAL1.getDateTime())),
-                                hasProperty("calories", is(MEAL1.getCalories()))
+                                hasProperty("calories", is(MEAL1.getCalories())),
+                                hasProperty("exceed", is(true))
                         )
                 )));
     }

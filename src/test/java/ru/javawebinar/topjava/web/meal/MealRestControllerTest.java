@@ -1,22 +1,28 @@
 package ru.javawebinar.topjava.web.meal;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import ru.javawebinar.topjava.MealTestData;
-import ru.javawebinar.topjava.UserTestData;
+import ru.javawebinar.topjava.TestUtil;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
+import ru.javawebinar.topjava.web.json.JsonUtil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
+import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
+import static ru.javawebinar.topjava.util.MealsUtil.getWithExceeded;
 
 public class MealRestControllerTest extends AbstractControllerTest {
 
@@ -39,4 +45,53 @@ public class MealRestControllerTest extends AbstractControllerTest {
         Collection<Meal> expected = MEALS.subList(0, MEALS.size() - 1);
         MealTestData.MATCHER.assertCollectionEquals(expected, mealService.getAll(USER_ID));
     }
+
+    @Test
+    public void testGetAll() throws Exception {
+        TestUtil.print(mockMvc.perform(get(REST_URL))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(
+                        getWithExceeded(MEALS, DEFAULT_CALORIES_PER_DAY)
+                )));
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Meal updated = getUpdated();
+        mockMvc.perform(put(REST_URL + updated.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated)))
+                .andExpect(status().isOk());
+        MATCHER.assertEquals(updated, mealService.get(updated.getId(), USER_ID));
+    }
+
+    @Test
+    public void testCreate() throws Exception {
+        Meal expected = getCreated();
+        ResultActions action = mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(expected))).andExpect(status().isCreated());
+
+        Meal returned = MATCHER.fromJsonAction(action);
+        expected.setId(returned.getId());
+
+        MATCHER.assertEquals(expected, returned);
+        List<Meal> all = new ArrayList<>(MEALS);
+        all.add(0, expected);
+        MATCHER.assertCollectionEquals(all, mealService.getAll(USER_ID));
+    }
+
+    @Test
+    public void getBetween() throws Exception {
+        TestUtil.print(mockMvc.perform(get(REST_URL + "filter?startDateTime=" + MEAL1.getDateTime().toString()
+                + "&endDateTime=" + MEAL3.getDateTime().toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(
+                        getWithExceeded(Arrays.asList(MEAL3, MEAL2, MEAL1), DEFAULT_CALORIES_PER_DAY)
+                )));
+    }
+
+
 }
