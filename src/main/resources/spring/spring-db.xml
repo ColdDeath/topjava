@@ -105,17 +105,17 @@
 
         <bean class="ru.javawebinar.topjava.repository.JpaUtil"/>
 
-        <context:component-scan base-package="ru.javawebinar.**.util"/>
-
+        <!--
         <bean id="jmxExporterCacheManagerMBean" class="org.springframework.jmx.export.MBeanExporter">
             <property name="beans">
                 <map>
                     <entry key="CacheManager:type=SecondLevelCacheManager">
-                        <ref bean="CacheUtil"/>
+                        <bean id="CacheUtil" class="ru.javawebinar.topjava.util.CacheUtil"></bean>
                     </entry>
                 </map>
             </property>
         </bean>
+        -->
 
     </beans>
 
