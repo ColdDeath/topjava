@@ -43,10 +43,10 @@
                                        <c:if test="${user.enabled}">checked</c:if> id="${user.id}"/>
                             </td>
                             <td><fmt:formatDate value="${user.registered}" pattern="dd-MMMM-yyyy"/></td>
-                            <td><a class="btn btn-xs btn-primary edit"  id="${user.id}">
+                            <td><a class="btn btn-xs btn-primary edit" onclick="">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </a></td>
-                            <td><a class="btn btn-xs btn-danger delete" id="${user.id}">
+                            <td><a class="btn btn-xs btn-danger delete" onclick="deleteRow(${user.id})">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </a></td>
                         </tr>
