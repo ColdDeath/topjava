@@ -14,7 +14,7 @@
         <div class="shadow">
             <h3><spring:message code="meals.title"/></h3>
 
-            <form class="form-horizontal" method="post" action="meals/filter">
+            <form id="filter" role="form" class="form-horizontal" method="post" action="/meals">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="startDate"><spring:message code="meals.startDate"/>:</label>
                     <div class="col-sm-2">
@@ -38,7 +38,7 @@
                 <div class="form-group">
                     <div class="col-sm-6"></div>
                     <div class="col-sm-1">
-                        <button class="btn btn-primary" type="submit"><spring:message code="meals.filter"/></button>
+                        <button class="btn btn-primary" type="button" onclick="filterTable()"><spring:message code="meals.filter"/></button>
                     </div>
                 </div>
             </form>
@@ -97,7 +97,7 @@
                         <label for="dateTime" class="control-label col-xs-3"><spring:message code="meals.dateTime"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="dateTime" name="dateTime" placeholder="<spring:message code="meals.dateTime"/>">
+                            <input class="form-control" id="dateTime" name="dateTime" placeholder="<spring:message code="meals.dateTime"/>">
                         </div>
                     </div>
 
@@ -113,7 +113,7 @@
                         <label for="calories" class="control-label col-xs-3"><spring:message code="meals.calories"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="calories" name="calories" placeholder="<spring:message code="meals.calories"/>">
+                            <input type="number" class="form-control" id="calories" name="calories" placeholder="<spring:message code="meals.calories"/>">
                         </div>
                     </div>
 
