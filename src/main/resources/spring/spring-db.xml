@@ -103,7 +103,16 @@
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
               p:entityManagerFactory-ref="entityManagerFactory"/>
 
-        <bean class="ru.javawebinar.topjava.repository.JpaUtil"/>
+        <bean id="jpaUtil" class="ru.javawebinar.topjava.repository.JpaUtil"/>
+
+        <bean id="jmxExporterCacheManagerMBean" class="org.springframework.jmx.export.MBeanExporter">
+            <property name="registrationPolicy" value="IGNORE_EXISTING"/>
+            <property name="beans">
+                <map>
+                    <entry key="CacheManager:type=SecondLevelCacheManager" value-ref="jpaUtil"/>
+                </map>
+            </property>
+        </bean>
     </beans>
 
     <beans profile="jpa">
