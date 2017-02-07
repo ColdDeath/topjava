@@ -42,7 +42,7 @@ function filterTable() {
     $.ajax({
         type: "POST",
         url: ajaxUrl + 'filter',
-        data: $('#filter').serialize(),
+        data: $('#filterForm').serialize(),
         success: updateTableByData
     });
 }
