@@ -30,3 +30,8 @@ header, footer {
     padding: 5px 20px;
     margin: 6px 0;
 }
+
+.disabled {
+    opacity: 0.3;
+    filter: alpha(opacity = 30);
+}

@@ -2,15 +2,6 @@ var ajaxUrl = 'ajax/meals/';
 var datatableApi;
 var localeCode="ru";
 
-function filterTable() {
-    $.ajax({
-        type: "POST",
-        url: ajaxUrl + 'filter',
-        data: $('#filter').serialize(),
-        success: updateTableByData
-    });
-}
-
 $(function () {
     datatableApi = $('#datatable').DataTable({
         "paging": false,

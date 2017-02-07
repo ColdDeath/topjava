@@ -1,8 +1,4 @@
 function makeEditable() {
-    $('.delete').click(function () {
-        deleteRow($(this).attr("id"));
-    });
-
     $('#detailsForm').submit(function () {
         save();
         return false;
@@ -10,6 +6,19 @@ function makeEditable() {
 
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(event, jqXHR, options, jsExc);
+    });
+}
+
+function enable(checkbox, id) {
+    var enabled = checkbox.is(':checked');
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl + id,
+        data: {'enabled': enabled},
+        success: function () {
+            checkbox.closest('tr').toggleClass('disabled');
+            successNoty(enabled ? 'User enabled' : 'User disabled');
+        }
     });
 }
 
@@ -27,6 +36,20 @@ function deleteRow(id) {
             successNoty('Deleted');
         }
     });
+}
+
+function filterTable() {
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl + 'filter',
+        data: $('#filter').serialize(),
+        success: updateTableByData
+    });
+}
+
+function resetFilter() {
+    $('#filterForm').trigger('reset');
+    updateTable();
 }
 
 function updateTable() {

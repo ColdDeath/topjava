@@ -14,7 +14,7 @@
         <div class="shadow">
             <h3><spring:message code="meals.title"/></h3>
 
-            <form id="filter" role="form" class="form-horizontal" method="post" action="/meals">
+            <form id="filterForm" role="form" class="form-horizontal" method="post" action="/meals">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="startDate"><spring:message code="meals.startDate"/>:</label>
                     <div class="col-sm-2">
@@ -39,6 +39,12 @@
                     <div class="col-sm-6"></div>
                     <div class="col-sm-1">
                         <button class="btn btn-primary" type="button" onclick="filterTable()"><spring:message code="meals.filter"/></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-primary" type="button" onclick="resetFilter()"><spring:message code="meals.resetFilter"/></button>
                     </div>
                 </div>
             </form>
