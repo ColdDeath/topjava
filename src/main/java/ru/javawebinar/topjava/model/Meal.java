@@ -4,6 +4,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,6 +32,7 @@ public class Meal extends BaseEntity {
     public static final String DELETE = "Meal.delete";
     public static final String GET_BETWEEN = "Meal.getBetween";
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "date_time", nullable = false)
     @NotNull
     private LocalDateTime dateTime;
@@ -40,7 +42,8 @@ public class Meal extends BaseEntity {
     private String description;
 
     @Column(name = "calories", nullable = false)
-    @Range(min = 10, max = 5000)
+    @NotNull
+    @Range(min = 10, max = 5000, message = " must be between 10 and 5000")
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
