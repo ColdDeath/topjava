@@ -19,7 +19,8 @@ function updateRow(id) {
     $('#modalTitle').html(editTitle);
     $.get(ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
-            form.find("input[name='" + key + "']").val(value);
+            form.find("input[name='" + key + "']").val(
+                key === "dateTime" ? value.replace('T', ' ').substr(0, 16) : value);
         });
         $('#editRow').modal();
     });
@@ -46,7 +47,7 @@ function save() {
         url: ajaxUrl,
         data: form.serialize(),
         success: function () {
-            $('#editRow').modal('hide');
+                $('#editRow').modal('hide');
             updateTable();
             successNoty('common.saved');
         }

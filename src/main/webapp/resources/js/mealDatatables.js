@@ -1,5 +1,6 @@
 var ajaxUrl = "ajax/profile/meals/";
 var datatableApi;
+var localeCode="ru";
 
 // $(document).ready(function () {
 function clearFilter() {
@@ -29,7 +30,7 @@ $(function () {
                 "data": "dateTime",
                 "render": function (date, type, row) {
                     if (type == 'display') {
-                        return '<span>' + date.substring(0, 10) + '</span>';
+                        return '<span>' + date.replace('T', ' ').substr(0, 16) + '</span>';
                     }
                     return date;
                 }
@@ -58,10 +59,44 @@ $(function () {
             ]
         ],
         "createdRow": function (row, data, dataIndex) {
-            if (!data.exceed) {
+            if (data.exceed) {
                 $(row).addClass("exceeded");
             }
         },
         "initComplete": makeEditable
+    });
+
+    $.datetimepicker.setLocale(localeCode);
+
+    var startDate = $('#startDate');
+    var endDate = $('#endDate');
+    startDate.datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d',
+        formatDate: 'Y-m-d',
+        onShow: function (ct) {
+            this.setOptions({
+                maxDate: endDate.val() ? endDate.val() : false
+            })
+        }
+    });
+    endDate.datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d',
+        formatDate: 'Y-m-d',
+        onShow: function (ct) {
+            this.setOptions({
+                minDate: startDate.val() ? startDate.val() : false
+            })
+        }
+    });
+
+    $('#startTime, #endTime').datetimepicker({
+        datepicker: false,
+        format: 'H:i'
+    });
+
+    $('#dateTime').datetimepicker({
+        format: 'Y-m-d H:i'
     });
 });
