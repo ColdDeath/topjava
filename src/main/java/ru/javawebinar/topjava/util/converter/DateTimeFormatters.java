@@ -43,17 +43,4 @@ public class DateTimeFormatters {
             return lt.format(DateTimeFormatter.ISO_LOCAL_TIME);
         }
     }
-
-    public static class LocalDateTimeFormatter implements Formatter<LocalDateTime> {
-
-        @Override
-        public LocalDateTime parse(String text, Locale locale) throws ParseException {
-            return parseLocalDateTime(text);
-        }
-
-        @Override
-        public String print(LocalDateTime lt, Locale locale) {
-            return lt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        }
-    }
 }
