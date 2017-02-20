@@ -33,6 +33,32 @@ public class MealRestControllerTest extends AbstractControllerTest {
     private MealService service;
 
     @Test
+    public void testCreateNotValid() throws Exception {
+        Meal created = getCreated();
+        created.setCalories(null);
+        mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(created))
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testUpdateNotValid() throws Exception {
+        Meal updated = getUpdated();
+        updated.setCalories(null);
+
+        mockMvc.perform(put(REST_URL + MEAL1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(USER)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + ADMIN_MEAL_ID)
                 .with(userHttpBasic(ADMIN)))
