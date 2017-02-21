@@ -27,6 +27,9 @@ $(function () {
             "dataSrc": ""
         },
         "paging": false,
+        "language": {
+            "url": "resources/i18n/datatables-" + localeCode + ".json"
+        },
         "info": true,
         "columns": [
             {

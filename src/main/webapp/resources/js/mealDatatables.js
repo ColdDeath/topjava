@@ -24,6 +24,9 @@ $(function () {
             "dataSrc": ""
         },
         "paging": false,
+        "language": {
+            "url": "resources/i18n/datatables-" + localeCode + ".json"
+        },
         "info": true,
         "columns": [
             {
@@ -63,6 +66,8 @@ $(function () {
         },
         "initComplete": makeEditable
     });
+
+    $.datetimepicker.setLocale(localeCode);
 
     var startDate = $('#startDate');
     var endDate = $('#endDate');
