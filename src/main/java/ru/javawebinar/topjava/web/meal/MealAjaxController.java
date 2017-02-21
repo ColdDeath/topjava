@@ -1,5 +1,9 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,9 @@ import java.util.List;
 @RequestMapping(value = "/ajax/profile/meals")
 public class MealAjaxController extends AbstractMealController {
 
+    @Autowired
+    private MessageSource messageSource;
+
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MealWithExceed> getAll() {
@@ -42,14 +49,17 @@ public class MealAjaxController extends AbstractMealController {
     }
 
     @PostMapping
-    public void updateOrCreate(@Valid Meal meal, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new ValidationException(ValidationUtil.getErrorResponse(result).getBody());
+    public void updateOrCreate(@Valid Meal meal) {
+        try {
+            if (meal.isNew()) {
+                super.create(meal);
+            } else {
+                super.update(meal, meal.getId());
+            }
         }
-        if (meal.isNew()) {
-            super.create(meal);
-        } else {
-            super.update(meal, meal.getId());
+        catch (DataIntegrityViolationException e)
+        {
+            throw new DataIntegrityViolationException(messageSource.getMessage("meals.dateTimeDublicate", null, LocaleContextHolder.getLocale()));
         }
     }
 

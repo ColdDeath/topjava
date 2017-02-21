@@ -6,13 +6,16 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import ru.javawebinar.topjava.util.ValidationUtil;
 import ru.javawebinar.topjava.util.exception.ErrorInfo;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ValidationException;
+import javax.xml.bind.ValidationException;
 
 /**
  * User: gkislin
@@ -40,10 +43,10 @@ public class ExceptionInfoHandler {
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)  // 400
-    @ExceptionHandler(ValidationException.class)
+    @ExceptionHandler(BindException.class)
     @ResponseBody
     @Order(Ordered.HIGHEST_PRECEDENCE + 2)
-    public ErrorInfo conflict(HttpServletRequest req, ValidationException e) {
+    public ErrorInfo conflict(HttpServletRequest req, BindException e) {
         return logAndGetErrorInfo(req, e, true);
     }
 
@@ -64,11 +67,21 @@ public class ExceptionInfoHandler {
     }
 
     public ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException) {
+        if (e instanceof BindingResult) {
+            e = new ValidationException(ValidationUtil.getErrorResponse((BindingResult)e).getBody());
+        }
         if (logException) {
             LOG.error("Exception at request " + req.getRequestURL(), e);
         } else {
             LOG.warn("Exception at request " + req.getRequestURL() + ": " + e.toString());
         }
+
         return new ErrorInfo(req.getRequestURL(), e);
     }
+
+
+
+
+
+
 }

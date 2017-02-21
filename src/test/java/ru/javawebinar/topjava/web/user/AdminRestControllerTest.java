@@ -24,6 +24,29 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = AdminRestController.REST_URL + '/';
 
     @Test
+    public void testCreateNotValid() throws Exception {
+        User expected = new User(null, "New", "new@gmail.com", "", 2300, Role.ROLE_USER, Role.ROLE_ADMIN);
+        mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(expected)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testUpdateNotValid() throws Exception {
+        User updated = new User(USER);
+        updated.setPassword("");
+        updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
+        mockMvc.perform(put(REST_URL + USER_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(updated)))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + ADMIN_ID)
                 .with(userHttpBasic(ADMIN)))
