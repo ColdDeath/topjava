@@ -51,13 +51,15 @@ public class RootController extends AbstractUserController {
 
     @PostMapping("/profile")
     public String updateProfile(@Valid UserTo userTo, BindingResult result, SessionStatus status) {
-        try {
-            super.update(userTo);
-            AuthorizedUser.get().update(userTo);
-            status.setComplete();
-            return "redirect:meals";
-        } catch (DataIntegrityViolationException e) {
-            result.rejectValue("email", "users.emailDuplicate");
+        if (!result.hasErrors()) {
+            try {
+                super.update(userTo);
+                AuthorizedUser.get().update(userTo);
+                status.setComplete();
+                return "redirect:meals";
+            } catch (DataIntegrityViolationException e) {
+                result.rejectValue("email", "users.emailDuplicate");
+            }
         }
         return "profile";
     }
@@ -71,12 +73,14 @@ public class RootController extends AbstractUserController {
 
     @PostMapping("/register")
     public String saveRegister(@Valid UserTo userTo, BindingResult result, SessionStatus status, ModelMap model) {
-        try {
-            super.create(UserUtil.createNewFromTo(userTo));
-            status.setComplete();
-            return "redirect:login?message=app.registered&username=" + userTo.getEmail();
-        } catch (DataIntegrityViolationException e) {
-            result.rejectValue("email", "users.emailDuplicate");
+        if (!result.hasErrors()) {
+            try {
+                super.create(UserUtil.createNewFromTo(userTo));
+                status.setComplete();
+                return "redirect:login?message=app.registered&username=" + userTo.getEmail();
+            } catch (DataIntegrityViolationException e) {
+                result.rejectValue("email", "users.email.duplicate");
+            }
         }
         model.addAttribute("register", true);
         return "profile";
