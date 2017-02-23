@@ -47,9 +47,9 @@ public class ValidationUtil {
         }
     }
 
-    public static ResponseEntity<String> getErrorResponse(BindingResult result) {
+    public static String getErrorResponse(BindingResult result) {
         StringBuilder sb = new StringBuilder();
         result.getFieldErrors().forEach(fe -> sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage()).append("<br>"));
-        return new ResponseEntity<>(sb.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
+        return sb.toString();
     }
 }

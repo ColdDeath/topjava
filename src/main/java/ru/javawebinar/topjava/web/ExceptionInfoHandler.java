@@ -46,7 +46,7 @@ public class ExceptionInfoHandler {
     @ExceptionHandler(BindException.class)
     @ResponseBody
     @Order(Ordered.HIGHEST_PRECEDENCE + 2)
-    public ErrorInfo conflict(HttpServletRequest req, BindException e) {
+    public ErrorInfo handleError(HttpServletRequest req, BindException e) {
         return logAndGetErrorInfo(req, e, true);
     }
 
@@ -68,7 +68,7 @@ public class ExceptionInfoHandler {
 
     public ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException) {
         if (e instanceof BindingResult) {
-            e = new ValidationException(ValidationUtil.getErrorResponse((BindingResult)e).getBody());
+            e = new ValidationException(ValidationUtil.getErrorResponse((BindingResult)e));
         }
         if (logException) {
             LOG.error("Exception at request " + req.getRequestURL(), e);
